@@ -107,7 +107,22 @@ with time_task(message_start=f"\nLoading {args.transcription_engine} model: {wbl
     if args.transcription_engine == 'whisperx':
         import whisperx
         import whisperx_utils
-    
+        import getpass
+
+# Verifique se o token já está nas variáveis de ambiente
+if "HUGGINGFACE_TOKEN" not in os.environ:
+    # Tente obter o token dos Secrets do Colab
+    if userdata:
+        HUGGINGFACE_TOKEN = userdata.get('HUGGINGFACE_TOKEN')
+        if HUGGINGFACE_TOKEN:
+            os.environ['HUGGINGFACE_TOKEN'] = HUGGINGFACE_TOKEN
+        else:
+            # Se não estiver definido nos Secrets, peça ao usuário
+            os.environ["HUGGINGFACE_TOKEN"] = getpass('Enter your Hugging Face token: ')
+    else:
+        # Se não estiver no Colab, peça ao usuário
+        os.environ["HUGGINGFACE_TOKEN"] = getpass('Enter your Hugging Face token: ')
+
 # Load the whisperx model with the access token
         whisper_model = whisperx.load_model(
             whisper_arch=args.transcription_model, device=torch_device, compute_type=transcription_compute_type, asr_options={"repetition_penalty": 1, "prompt_reset_on_temperature": 0.5, "no_repeat_ngram_size": 2,},
