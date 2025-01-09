@@ -122,12 +122,19 @@ whisper_model = whisperx.load_model(
 )
     elif args.transcription_engine == 'whisper':
         import whisper
-
         import whisper_utils
+
         whisper_model = whisper.load_model(
-            name=args.transcription_model, device=torch_device, in_memory=True)
+            name=args.transcription_model,
+            device=torch_device,
+            in_memory=True
+        )
+
     else:
-        raise ValueError(f'Unsupported transcription engine {args.transcription_engine}. Supported values: whisperx, whisper')
+        raise ValueError(
+            f'Unsupported transcription engine {args.transcription_engine}. '
+            'Supported values: whisperx, whisper'
+        )
 
 with time_task(message="⌛ Processing files for"):
     path: Path
