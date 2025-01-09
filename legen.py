@@ -110,7 +110,7 @@ with time_task(message_start=f"\nLoading {args.transcription_engine} model: {wbl
 
 # Load the whisperx model with the access token
         whisper_model = whisperx.load_model(
-            whisper_arch=args.transcription_model, device=torch_device, compute_type=transcription_compute_type, asr_options={"repetition_penalty": 1, "prompt_reset_on_temperature": 0.5, "no_repeat_ngram_size": 2,},
+            whisper_arch=args.transcription_model, device=torch_device, compute_type=transcription_compute_type, asr_options={"repetition_penalty": 1, "prompt_reset_on_temperature": 0.5, "no_repeat_ngram_size": 2,})
 
     elif args.transcription_engine == 'whisper':
         import whisper
