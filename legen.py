@@ -108,8 +108,20 @@ with time_task(message_start=f"\nLoading {args.transcription_engine} model: {wbl
         import whisperx
         import whisperx_utils
     
-        whisper_model = whisperx.load_model(
-            whisper_arch=args.transcription_model, device=torch_device, compute_type=transcription_compute_type, asr_options={"repetition_penalty": 1, "prompt_reset_on_temperature": 0.5, "no_repeat_ngram_size": 2,})
+HUGGINGFACE_TOKEN = os.environ.get("HUGGINGFACE_TOKEN")
+
+# Load the whisperx model with the access token
+whisper_model = whisperx.load_model(
+    whisper_arch=args.transcription_model,
+    device=torch_device,
+    compute_type=transcription_compute_type,
+    asr_options={
+        "repetition_penalty": 1,
+        "prompt_reset_on_temperature": 0.5,
+        "no_repeat_ngram_size": 2,
+    },
+    use_auth_token=os.environ["HUGGINGFACE_TOKEN"]  # Corrected line
+)
     elif args.transcription_engine == 'whisper':
         import whisper
 
