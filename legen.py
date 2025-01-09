@@ -103,23 +103,6 @@ if args.norm:
         file_utils.update_folder_times(args.input_path)
 
 # load whisper model
-# Verifique se o token já está nas variáveis de ambiente
-from google.colab import userdata
-import getpass
-
-if "HUGGINGFACE_TOKEN" not in os.environ:
-    # Tente obter o token dos Secrets do Colab
-    if userdata:
-        HUGGINGFACE_TOKEN = userdata.get('HUGGINGFACE_TOKEN')
-        if HUGGINGFACE_TOKEN:
-            os.environ['HUGGINGFACE_TOKEN'] = HUGGINGFACE_TOKEN
-        else:
-            # Se não estiver definido nos Secrets, peça ao usuário
-            os.environ["HUGGINGFACE_TOKEN"] = getpass('Enter your Hugging Face token: ')
-    else:
-        # Se não estiver no Colab, peça ao usuário
-        os.environ["HUGGINGFACE_TOKEN"] = getpass('Enter your Hugging Face token: ')
-
 with time_task(message_start=f"\nLoading {args.transcription_engine} model: {wblue}{args.transcription_model}{default} ({transcription_compute_type}) on {wblue}{torch_device}{default}", end="\n"):
     if args.transcription_engine == 'whisperx':
         import whisperx
