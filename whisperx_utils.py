@@ -21,7 +21,7 @@ def transcribe_audio(model: whisperx.asr.WhisperModel, audio_path: Path, srt_pat
     if lang in whisperx.alignment.DEFAULT_ALIGN_MODELS_HF or lang in whisperx.alignment.DEFAULT_ALIGN_MODELS_TORCH:
         with time_task(message_start="Running alignment...", end='\n'):
             try:
-                model_a, metadata = whisperx.load_align_model(language_code=lang, device="cuda", huggingface_access_token=os.environ["HUGGINGFACE_TOKEN"])
+                model_a, metadata = whisperx.load_align_model(language_code=lang, device="cuda")
                 transcribe = whisperx.align(
                     transcript=transcribe["segments"],
                     model=model_a,
@@ -32,7 +32,7 @@ def transcribe_audio(model: whisperx.asr.WhisperModel, audio_path: Path, srt_pat
                     # Removed on_progress parameter
                 )
             except Exception:
-                model_a, metadata = whisperx.load_align_model(language_code=lang, device="cpu", huggingface_access_token=os.environ["HUGGINGFACE_TOKEN"])  # force load on cpu due to errors on gpu
+                model_a, metadata = whisperx.load_align_model(language_code=lang, device="cpu")  # force load on cpu due to errors on gpu
                 transcribe = whisperx.align(
                     transcript=transcribe["segments"],
                     model=model_a,
