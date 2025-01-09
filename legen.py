@@ -109,32 +109,18 @@ with time_task(message_start=f"\nLoading {args.transcription_engine} model: {wbl
         import whisperx_utils
     
 # Load the whisperx model with the access token
-whisper_model = whisperx.load_model(
-    whisper_arch=args.transcription_model,
-    device=torch_device,
-    compute_type=transcription_compute_type,
-    asr_options={
-        "repetition_penalty": 1,
-        "prompt_reset_on_temperature": 0.5,
-        "no_repeat_ngram_size": 2,
-    },
-    use_auth_token=os.environ["HUGGINGFACE_TOKEN"]  # Corrected line
-)
+        whisper_model = whisperx.load_model(
+            whisper_arch=args.transcription_model, device=torch_device, compute_type=transcription_compute_type, asr_options={"repetition_penalty": 1, "prompt_reset_on_temperature": 0.5, "no_repeat_ngram_size": 2,},
+            use_auth_token=os.environ["HUGGINGFACE_TOKEN"])
+
     elif args.transcription_engine == 'whisper':
         import whisper
         import whisper_utils
 
         whisper_model = whisper.load_model(
-            name=args.transcription_model,
-            device=torch_device,
-            in_memory=True
-        )
-
+            name=args.transcription_model, device=torch_device, in_memory=True)
     else:
-        raise ValueError(
-            f'Unsupported transcription engine {args.transcription_engine}. '
-            'Supported values: whisperx, whisper'
-        )
+        raise ValueError(f'Unsupported transcription engine {args.transcription_engine}. Supported values: whisperx, whisper')
 
 with time_task(message="⌛ Processing files for"):
     path: Path
