@@ -104,6 +104,9 @@ if args.norm:
 
 # load whisper model
 # Verifique se o token já está nas variáveis de ambiente
+from google.colab import userdata
+import getpass
+
 if "HUGGINGFACE_TOKEN" not in os.environ:
     # Tente obter o token dos Secrets do Colab
     if userdata:
@@ -121,7 +124,6 @@ with time_task(message_start=f"\nLoading {args.transcription_engine} model: {wbl
     if args.transcription_engine == 'whisperx':
         import whisperx
         import whisperx_utils
-        import getpass
 
 # Load the whisperx model with the access token
         whisper_model = whisperx.load_model(
