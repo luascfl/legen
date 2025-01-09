@@ -39,7 +39,7 @@ def transcribe_audio(model: whisperx.asr.WhisperModel, audio_path: Path, srt_pat
 
     # Transcribe
     with time_task("Running WhisperX transcription engine...", end='\n'):
-        transcribe = model.transcribe(audio=audio, language=lang, batch_size=batch_size, on_progress=progress_callback)
+        transcribe = model.transcribe(audio=audio, language=lang, batch_size=batch_size)
 
     # Align if possible
     if lang in whisperx.alignment.DEFAULT_ALIGN_MODELS_HF or lang in whisperx.alignment.DEFAULT_ALIGN_MODELS_TORCH:
